@@ -1,8 +1,7 @@
 class ArticleModel {
- final String imageUrl;
+  final String imageUrl;
   final String title;
   final String description;
-
 
   ArticleModel({
     required this.imageUrl,
@@ -10,6 +9,11 @@ class ArticleModel {
     required this.description,
   });
 
+  factory ArticleModel.fromJson(Map<String, dynamic> json) {
+    return ArticleModel(
+      imageUrl: json['image'],
+      title: json['title'],
+      description: json['description'],
+    );
+  }
 }
-
-
