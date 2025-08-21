@@ -18,7 +18,7 @@ The app is built with a clean architecture using Models, Services, Views, and Wi
 ## 🛠️ Technologies  
 
 - **Flutter & Dart**  
-- **HTTP package** for API requests  
+- **Dio package** for API requests  
 - **Material Design Widgets**  
 
 ---
