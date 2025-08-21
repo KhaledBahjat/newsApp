@@ -60,7 +60,7 @@ git clone https://github.com/KhaledBahjat/newsApp
 
 ### 2. Navigate to the project folder  
 ```bash
-cd news_application
+cd news_app
 ```
 
 ### 3. Install dependencies  
