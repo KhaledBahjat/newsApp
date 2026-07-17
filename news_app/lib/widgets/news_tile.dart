@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/models/article_model.dart';
+import 'package:news_app/views/details_view.dart';
 
 class NewsTile extends StatelessWidget {
   const NewsTile({super.key, required this.article});
@@ -10,42 +11,51 @@ class NewsTile extends StatelessWidget {
       padding: const EdgeInsets.only(
         bottom: 15,
       ),
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: Image.network(
-              article.imageUrl,
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailsView(imgPath: article.imageUrl,titel: 
+            article.title,desc: article.description,),
+          ),
+        ),
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Image.network(
+                article.imageUrl,
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 12,
-          ),
-          Text(
-            article.title,
-            style: const TextStyle(
-              overflow: TextOverflow.ellipsis,
-              color: Colors.black,
-              fontWeight: FontWeight.w500,
-              fontSize: 20,
+            const SizedBox(
+              height: 12,
             ),
-            maxLines: 2,
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Text(
-            article.description,
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 15,
+            Text(
+              article.title,
+              style: const TextStyle(
+                overflow: TextOverflow.ellipsis,
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              ),
+              maxLines: 2,
             ),
-            maxLines: 2,
-          ),
-        ],
+            const SizedBox(
+              height: 8,
+            ),
+            Text(
+              article.description,
+              style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 15,
+              ),
+              maxLines: 2,
+            ),
+          ],
+        ),
       ),
     );
   }
