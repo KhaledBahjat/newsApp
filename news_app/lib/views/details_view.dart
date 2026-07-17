@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class DetailsView extends StatelessWidget {
@@ -15,30 +16,95 @@ class DetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:Colors.white,
+      backgroundColor: const Color(0xffF8F9FA),
       body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
-            expandedHeight: 320,
+            expandedHeight: 330,
             pinned: true,
-            backgroundColor: Colors.white,
+            stretch: true,
             elevation: 0,
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.transparent,
             leading: Padding(
               padding: const EdgeInsets.all(8),
               child: CircleAvatar(
                 backgroundColor: Colors.white.withOpacity(.9),
                 child: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.black),
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: Colors.black,
+                  ),
                   onPressed: () => Navigator.pop(context),
                 ),
               ),
             ),
             flexibleSpace: FlexibleSpaceBar(
+              stretchModes: const [
+                StretchMode.zoomBackground,
+                StretchMode.blurBackground,
+              ],
               background: Hero(
-                tag: imgPath,
-                child: Image.network(
-                  imgPath,
-                  fit: BoxFit.cover,
+                tag: imgPath.isNotEmpty ? imgPath : titel,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: imgPath,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(
+                        color: Colors.grey.shade200,
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(),
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        color: Colors.grey.shade200,
+                        alignment: Alignment.center,
+                        child: const Icon(
+                          Icons.broken_image_outlined,
+                          size: 60,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withOpacity(.65),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    Positioned(
+                      left: 20,
+                      right: 20,
+                      bottom: 35,
+                      child: Text(
+                        titel,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          height: 1.2,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black54,
+                              blurRadius: 12,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -46,9 +112,9 @@ class DetailsView extends StatelessWidget {
 
           SliverToBoxAdapter(
             child: Transform.translate(
-              offset: const Offset(0, -25),
+              offset: const Offset(0, -20),
               child: Container(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.fromLTRB(24, 28, 24, 32),
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.vertical(
@@ -58,48 +124,47 @@ class DetailsView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /// Title
-                    Text(
-                      titel,
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        height: 1.2,
+                    Container(
+                      width: 60,
+                      height: 5,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 25),
 
                     Row(
                       children: [
                         Icon(
-                          Icons.info_outline,
-                          color: Colors.grey.shade700,
-                          size: 20,
+                          Icons.description_outlined,
+                          color: Colors.orange.shade700,
+                          size: 22,
                         ),
-                        const SizedBox(width: 8),
-                        Text(
+                        const SizedBox(width: 10),
+                        const Text(
                           "Description",
                           style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey.shade800,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
                     ),
 
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 18),
 
                     Text(
-                      desc,
+                      desc.isNotEmpty
+                          ? desc
+                          : "No description available for this article.",
                       style: TextStyle(
                         fontSize: 17,
                         height: 1.8,
                         color: Colors.grey.shade700,
                       ),
                     ),
-
                     const SizedBox(height: 40),
                   ],
                 ),
