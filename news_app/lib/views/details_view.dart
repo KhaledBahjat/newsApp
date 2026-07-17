@@ -1,61 +1,112 @@
 import 'package:flutter/material.dart';
 
 class DetailsView extends StatelessWidget {
-  const DetailsView({super.key, required this.imgPath, required this.titel, required this.desc});
+  const DetailsView({
+    super.key,
+    required this.imgPath,
+    required this.titel,
+    required this.desc,
+  });
+
   final String imgPath;
   final String titel;
   final String desc;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsetsGeometry.all(15),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 100,
-              ),
-          
-              const SizedBox(
-                height: 30,
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                width: double.infinity,
-                height: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
+      backgroundColor:Colors.white,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 320,
+            pinned: true,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: Padding(
+              padding: const EdgeInsets.all(8),
+              child: CircleAvatar(
+                backgroundColor: Colors.white.withOpacity(.9),
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back, color: Colors.black),
+                  onPressed: () => Navigator.pop(context),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: Image.network(
-                    imgPath,
-                    height: 200,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+              ),
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Hero(
+                tag: imgPath,
+                child: Image.network(
+                  imgPath,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+
+          SliverToBoxAdapter(
+            child: Transform.translate(
+              offset: const Offset(0, -25),
+              child: Container(
+                padding: const EdgeInsets.all(24),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(30),
                   ),
                 ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /// Title
+                    Text(
+                      titel,
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        height: 1.2,
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          color: Colors.grey.shade700,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          "Description",
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey.shade800,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    Text(
+                      desc,
+                      style: TextStyle(
+                        fontSize: 17,
+                        height: 1.8,
+                        color: Colors.grey.shade700,
+                      ),
+                    ),
+
+                    const SizedBox(height: 40),
+                  ],
+                ),
               ),
-            SizedBox(height: 10,),
-            Divider(),
-            SizedBox(height: 10,),
-          
-            Text(titel,style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-          
-            ),),
-            SizedBox(height: 10,),
-                      Text(desc,style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey
-                      
-                                ),),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
